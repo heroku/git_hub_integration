@@ -20,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You will need a `RBNACL_SECRET` environment variable to encrypt cached tokens.
+You can generate one using the following code
+
+```
+dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
+```
 
 ## Development
 
