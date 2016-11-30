@@ -18,8 +18,6 @@ module GitHubIntegration
 
     def self.decrypt_value(value)
       rbnacl_simple_box.decrypt(Base64.decode64(value))
-    rescue RbNaCl::CryptoError, NoMethodError
-      nil
     end
 
     def self.encrypt_value(value)
