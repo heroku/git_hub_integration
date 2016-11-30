@@ -1,8 +1,6 @@
 # GitHubIntegration
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/git_hub_integration`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Use GitHub Integration with Octokit.
 
 ## Installation
 
@@ -22,7 +20,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You will need a `RBNACL_SECRET` environment variable to encrypt cached tokens.
+You can generate one using the following code
+
+```
+dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
+```
 
 ## Development
 

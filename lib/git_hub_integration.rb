@@ -1,5 +1,8 @@
 require "git_hub_integration/version"
+require "base64"
+require "rbnacl/libsodium"
 require "octokit"
+require "git_hub_integration/token_encryption"
 
 # Github authentication
 module GitHubIntegration
@@ -25,7 +28,7 @@ module GitHubIntegration
     if expired?
       set_fresh_github_access_token
     end
-    Rails.cache.read(ACCESS_TOKEN_KEY)
+    decrypted_access_token
   end
 
   def self.expired?
@@ -41,7 +44,7 @@ module GitHubIntegration
         "Accept" => "application/vnd.github.machine-man-preview+json"
       }
     )
-    Rails.cache.write(ACCESS_TOKEN_KEY, response[:token])
+    cache_encrypted_token(response[:token])
     Rails.cache.write(EXPIRATION_KEY, response[:expires_at])
   end
 
@@ -60,5 +63,14 @@ module GitHubIntegration
 
   def self.github_installation_id
     ENV["GITHUB_INTEGRATION_APPLICATION_ID"]
+  end
+
+  def self.cache_encrypted_token(token)
+    encrypted_token = TokenEncryption.encrypt_value(token)
+    Rails.cache.write(ACCESS_TOKEN_KEY, encrypted_token)
+  end
+
+  def self.decrypted_access_token
+    TokenEncryption.decrypt_value(Rails.cache.read(ACCESS_TOKEN_KEY))
   end
 end
