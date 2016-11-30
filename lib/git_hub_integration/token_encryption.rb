@@ -1,6 +1,7 @@
 class RbnaclSecretMissing < StandardError; end
 
 module GitHubIntegration
+  # Encrypt our cached Github tokens
   module TokenEncryption
     def self.rbnacl_secret
       ENV["RBNACL_SECRET"] ||
