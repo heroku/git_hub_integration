@@ -13,8 +13,7 @@ module GitHubIntegration
     end
 
     def self.rbnacl_simple_box
-      @rbnacl_simple_box ||=
-        RbNaCl::SimpleBox.from_secret_key(rbnacl_secret_bytes)
+      RbNaCl::SimpleBox.from_secret_key(rbnacl_secret_bytes)
     end
 
     def self.decrypt_value(value)
