@@ -1,8 +1,12 @@
-require "git_hub_integration/version"
+require "active_support/time"
 require "base64"
-require "rbnacl/libsodium"
-require "octokit"
 require "git_hub_integration/token_encryption"
+require "git_hub_integration/version"
+require "json"
+require "jwt"
+require "octokit"
+require "rbnacl/libsodium"
+require "redis"
 
 # Github authentication
 module GitHubIntegration
@@ -32,8 +36,8 @@ module GitHubIntegration
   end
 
   def self.expired?
-    expires_at = Rails.cache.read(EXPIRATION_KEY)
-    !expires_at || Time.now.utc >= expires_at
+    expires_at = redis.get(EXPIRATION_KEY)
+    !expires_at || 2.minutes.from_now.utc >= expires_at
   end
 
   def self.set_fresh_github_access_token
@@ -45,14 +49,14 @@ module GitHubIntegration
       }
     )
     cache_encrypted_token(response[:token])
-    Rails.cache.write(EXPIRATION_KEY, response[:expires_at])
+    redis.set(EXPIRATION_KEY, response[:expires_at])
   end
 
   def self.github_access_token_jwt
     payload = {
       iss: ENV["GITHUB_INTEGRATION_ID"].to_i,
-      iat: Time.now.to_i,
-      exp: 1.minute.from_now.to_i
+      iat: Time.now.utc.to_i,
+      exp: 5.minutes.from_now.utc.to_i
     }
     JWT.encode payload, github_private_key, "RS256"
   end
@@ -67,10 +71,14 @@ module GitHubIntegration
 
   def self.cache_encrypted_token(token)
     encrypted_token = TokenEncryption.encrypt_value(token)
-    Rails.cache.write(ACCESS_TOKEN_KEY, encrypted_token)
+    redis.set(ACCESS_TOKEN_KEY, encrypted_token)
   end
 
   def self.decrypted_access_token
-    TokenEncryption.decrypt_value(Rails.cache.read(ACCESS_TOKEN_KEY))
+    TokenEncryption.decrypt_value(redis.get(ACCESS_TOKEN_KEY))
+  end
+
+  def self.redis
+    @redis ||= Redis.new(url: ENV["REDIS_URL"])
   end
 end

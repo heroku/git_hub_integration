@@ -2,20 +2,17 @@ require "spec_helper"
 
 RSpec.describe GitHubIntegration::TokenEncryption do
   it "raise an error when RBNACL_SECRET is missing" do
+    original_secret = ENV["RBNACL_SECRET"]
+    ENV["RBNACL_SECRET"] = nil
+
     expect do
       GitHubIntegration::TokenEncryption.encrypt_value("test")
     end.to raise_error(RbnaclSecretMissing)
+
+    ENV["RBNACL_SECRET"] = original_secret
   end
 
   describe "When RBNACL_SECRET is present" do
-    before do
-      ENV["RBNACL_SECRET"] = "n1v9ITbJ9KIkFa3fqs1XTlUkRToQNmp5Ekqy/aEMooM="
-    end
-
-    after do
-      ENV.delete("RBNACL_SECRET")
-    end
-
     it "does not raise an error when RBNACL_SECRET is present" do
       expect do
         GitHubIntegration::TokenEncryption.encrypt_value("test")
