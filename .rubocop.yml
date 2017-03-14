@@ -70,6 +70,7 @@ IndentationWidth:
   Severity: error
 
 BlockLength:
+  ExcludedMethods: ['describe', 'context']
   Max: 25
   Severity: error
 
