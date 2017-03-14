@@ -15,8 +15,11 @@ module GitHubIntegration
   MACHINE_MAN = "application/vnd.github.machine-man-preview+json".freeze
   EXPIRATION = 30
 
-  def self.legacy_client
-    Octokit::Client.new(access_token: ENV["GITHUB_API_TOKEN"])
+  def self.legacy_client(access_token=nil, api_endpoint=nil)
+    access_token = access_token || ENV["GITHUB_API_TOKEN"]
+    Octokit::Client.new(access_token: access_token,
+                        api_endpoint: api_endpoint
+    )
   end
 
   def self.client
