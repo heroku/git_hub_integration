@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport"
   spec.add_dependency "jwt", "1.5.1"
   spec.add_dependency "octokit", "4.6.2"
-  spec.add_dependency "rbnacl-libsodium"
+  spec.add_dependency "rbnacl", "~> 5.0"
   spec.add_dependency "redis"
 
   spec.add_development_dependency "bundler"
