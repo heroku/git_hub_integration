@@ -21,9 +21,9 @@ Or install it yourself as:
 ## Usage
 
 ### Dependencies
-`RbNACL`
-`Redis`
-`Octokit`
+- `RbNACL`
+- `Redis`
+- `Octokit`
 
 ### ENV Variables
 `RBNACL_SECRET`
