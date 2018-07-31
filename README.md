@@ -25,7 +25,6 @@ Or install it yourself as:
 `Redis`
 `Octokit`
 
-
 ### ENV Variables
 `RBNACL_SECRET`
 You will need a `RBNACL_SECRET` environment variable to encrypt cached tokens.
