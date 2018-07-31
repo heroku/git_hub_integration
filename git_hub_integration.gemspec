@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "activesupport"
-  spec.add_dependency "jwt"
+  spec.add_dependency "jwt", "1.5.1"
   spec.add_dependency "octokit", "4.6.2"
   spec.add_dependency "rbnacl-libsodium"
   spec.add_dependency "redis"
