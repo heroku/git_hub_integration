@@ -20,12 +20,26 @@ Or install it yourself as:
 
 ## Usage
 
+### Dependencies
+- `RbNACL`
+- `Redis`
+- `Octokit`
+
+### ENV Variables
+`RBNACL_SECRET`
 You will need a `RBNACL_SECRET` environment variable to encrypt cached tokens.
 You can generate one using the following code
 
 ```
 dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
 ```
+`GITHUB_API_TOKEN` - Legacy API token
+
+`GITHUB_INTEGRATION_ID` - The id of your GitHub App. After creating the GitHub app, you can view this id in the GitHub UI by visiting the [GitHub Apps page](https://github.com/organizations/heroku/settings/apps) and clicking `Edit` next to your GitHub App. The ID will be in the `About` section.
+`GITHUB_PRIVATE_KEY` - This private key is generated and can be downloaded locally when you first create your GitHub app.
+
+`GITHUB_INTEGRATION_APPLICATION_ID` - Setting this will mean that the gem will start using the GitHub app instead of the legacy GitHub token, only set this when you're ready to start using the integration. The integration application ID is unique to each installation of the GitHub app. It is generated when you install the GitHub App on the Heroku account. After installing the app, visit the [Installed GitHub Apps page](https://github.com/organizations/heroku/settings/installations) and click on `Configure` next to your GitHub App. The integration application ID will be visible in the URL.
+
 
 ## Development
 
