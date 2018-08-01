@@ -4,7 +4,12 @@ services:
 language: ruby
 rvm:
   - 2.3.1
-before_install: gem install bundler -v 1.13.6
+before_install:
+  # travis-ci doesn't include libsodium.
+  - sudo add-apt-repository  ppa:chris-lea/libsodium -y
+  - sudo apt-get -qq update
+  - sudo apt-get install -y libsodium-dev
+  - gem install bundler -v 1.13.6
 script: bin/cibuild
 notifications:
   email: false
