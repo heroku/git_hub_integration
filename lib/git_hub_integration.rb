@@ -38,8 +38,14 @@ module GitHubIntegration
     decrypted_access_token
   end
 
-  def self.expired?
+  def self.expires_at
     expires_at = redis.get(EXPIRATION_KEY)
+    if expires_at
+      Time.parse(expires_at)
+    end
+  end
+
+  def self.expired?
     !expires_at || 2.minutes.from_now.utc >= expires_at
   end
 
