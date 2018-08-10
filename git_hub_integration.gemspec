@@ -1,4 +1,5 @@
 # coding: utf-8
+
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "git_hub_integration/version"
@@ -40,7 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "dotenv"
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"
-  spec.add_development_dependency "rubocop", "0.47.1"
+  spec.add_development_dependency "rubocop", "0.48.1"
   spec.add_development_dependency "timecop"
   spec.add_development_dependency "webmock"
 end

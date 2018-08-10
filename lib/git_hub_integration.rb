@@ -40,9 +40,8 @@ module GitHubIntegration
 
   def self.expires_at
     expires_at = redis.get(EXPIRATION_KEY)
-    if expires_at
-      Time.parse(expires_at)
-    end
+    return unless expires_at
+    Time.parse(expires_at)
   end
 
   def self.expired?
