@@ -12,7 +12,7 @@ module WebmockHelpers
 
   def stub_github_integration_request(body = nil)
     body ||= { token: "123" }.to_json
-    url = "https://api.github.com/installations/1/access_tokens"
+    url = "https://api.github.com/app/installations/1/access_tokens"
     stub_json_request(:post, url, body)
   end
 end

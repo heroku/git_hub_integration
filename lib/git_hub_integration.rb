@@ -50,7 +50,7 @@ module GitHubIntegration
 
   def self.set_fresh_github_access_token
     response = Octokit.client.post(
-      "/installations/#{github_installation_id}/access_tokens",
+      "/app/installations/#{github_installation_id}/access_tokens",
       headers: {
         "Authorization" => "Bearer #{github_access_token_jwt}",
         "Accept" => "application/vnd.github.machine-man-preview+json"
