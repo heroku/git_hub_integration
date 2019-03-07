@@ -1,6 +1,5 @@
 require "active_support/time"
 require "base64"
-require "git_hub_integration/rbnacl_monkey_patch"
 require "git_hub_integration/token_encryption"
 require "git_hub_integration/version"
 require "json"
