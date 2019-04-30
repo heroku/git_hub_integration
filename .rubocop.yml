@@ -95,7 +95,7 @@ Style/Proc:
   Enabled: false
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.6
   # Include gemspec and Rakefile
   Include:
     - '**/*.gemspec'
