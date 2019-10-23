@@ -3,10 +3,8 @@ services:
   - redis
 language: ruby
 rvm:
-  - 2.3.1
+  - 2.6.5
 before_install:
-  # travis-ci doesn't include libsodium.
-  - sudo add-apt-repository  ppa:chris-lea/libsodium -y
   - sudo apt-get -qq update
   - sudo apt-get install -y libsodium-dev
   - gem install bundler -v 1.13.6
