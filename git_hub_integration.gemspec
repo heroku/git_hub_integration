@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activesupport"
   spec.add_dependency "jwt", "~> 2.0"
-  spec.add_dependency "octokit", "~> 4.6"
+  spec.add_dependency "octokit", "~> 4.19"
   spec.add_dependency "rbnacl", "~> 6.0"
   spec.add_dependency "redis"
 
