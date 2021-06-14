@@ -7,7 +7,7 @@ Use GitHub Integration with Octokit.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'git_hub_integration'
+gem 'git_hub_integration', github: 'heroku/git_hub_integration'
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ Or install it yourself as:
 
     $ gem install git_hub_integration
 
-## Usage
+## Installation
 
 ### Dependencies
 - `RbNACL`
@@ -40,6 +40,11 @@ dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
 
 `GITHUB_INTEGRATION_APPLICATION_ID` - Setting this will mean that the gem will start using the GitHub app instead of the legacy GitHub token, only set this when you're ready to start using the integration. The integration application ID is unique to each installation of the GitHub app. It is generated when you install the GitHub App on the Heroku account. After installing the app, visit the [Installed GitHub Apps page](https://github.com/organizations/heroku/settings/installations) and click on `Configure` next to your GitHub App. The integration application ID will be visible in the URL.
 
+## Usage
+
+The method `GitHubIntegration.client` returns an Octokit Client. If the environment variable `GITHUB_INTEGRATION_APPLICATION_ID` is set it will return a client for your GitHub App Integration bot. If it is not set, it will return a client from the Legacy API token.
+
+Use of `GitHubIntegration.legacy_client` will allow you to use a Legacy API client regardless of whether or not you have a `GITHUB_INTEGRATION_APPLICATION_ID` in your environment variables.
 
 ## Development
 
