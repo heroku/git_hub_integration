@@ -1,3 +1,4 @@
+# Re-opens the class to add these helper methods
 class Numeric
   MINUTE_SECONDS = 60
   HOUR_SECONDS = 60 * MINUTE_SECONDS
