@@ -25,6 +25,6 @@ jobs:
           name: Run tests
           command: bin/cibuild
 workflows:
-  main:
+  CI:
     jobs:
       - CI
