@@ -1,0 +1,25 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
+jobs:
+  CI:
+    docker:
+      - image: circleci/ruby:2.6.5
+    executor: ruby/default
+    steps:
+      - checkout
+      - run: &setup
+          name: Setup
+          command: |
+            gem install bundler
+            sudo apt-get -qq update
+            sudo apt-get install -y libsodium-dev
+            bundle -v
+      - run:
+          name: Run tests
+          command: bin/cibuild
+workflows:
+  main:
+    jobs:
+      - CI
