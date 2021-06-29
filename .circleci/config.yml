@@ -6,6 +6,7 @@ jobs:
   CI:
     docker:
       - image: circleci/ruby:2.6.5
+      - image: circleci/redis:latest
     executor: ruby/default
     steps:
       - checkout
@@ -16,6 +17,9 @@ jobs:
             sudo apt-get -qq update
             sudo apt-get install -y libsodium-dev
             bundle -v
+      - run:
+          name: Wait for Redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
       - run: bin/setup
       - run:
           name: Run tests
