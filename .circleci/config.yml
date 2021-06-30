@@ -1,0 +1,30 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@1.0
+
+jobs:
+  CI:
+    docker:
+      - image: circleci/ruby:2.6.5
+      - image: circleci/redis:latest
+    executor: ruby/default
+    steps:
+      - checkout
+      - run: &setup
+          name: Setup
+          command: |
+            gem install bundler
+            sudo apt-get -qq update
+            sudo apt-get install -y libsodium-dev
+            bundle -v
+      - run:
+          name: Wait for Redis
+          command: dockerize -wait tcp://localhost:6379 -timeout 1m
+      - run: bin/setup
+      - run:
+          name: Run tests
+          command: bin/cibuild
+workflows:
+  CI:
+    jobs:
+      - CI
