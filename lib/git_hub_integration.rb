@@ -1,4 +1,4 @@
-require "active_support/time"
+require "git_hub_integration/core_ext/numeric"
 require "base64"
 require "git_hub_integration/token_encryption"
 require "git_hub_integration/version"
