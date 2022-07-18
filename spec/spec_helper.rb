@@ -9,6 +9,7 @@ Dir["./spec/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |conf|
   conf.include(WebmockHelpers)
+  conf.include(EnvHelper)
 
   conf.before(:each) do
     Redis.new.flushdb
