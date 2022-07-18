@@ -40,6 +40,21 @@ dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
 
 `GITHUB_INTEGRATION_APPLICATION_ID` - Setting this will mean that the gem will start using the GitHub app instead of the legacy GitHub token, only set this when you're ready to start using the integration. The integration application ID is unique to each installation of the GitHub app. It is generated when you install the GitHub App on the Heroku account. After installing the app, visit the [Installed GitHub Apps page](https://github.com/organizations/heroku/settings/installations) and click on `Configure` next to your GitHub App. The integration application ID will be visible in the URL.
 
+### Thread-local Variables
+
+In addition to setting your GitHub App tokens and IDs via the environment variables above, you may also set them via thread-local variables. This allows you to switch them at runtime (in a thread-safe way) in the event your application issues GitHub API calls for multiple GitHub Apps.
+
+Here is the mapping between thread-local variables and environment variables:
+
+```ruby
+# Required to be an integer
+Thread.current[:github_integration_id] = ENV["GITHUB_INTEGRATION_ID"]&.to_i
+
+Thread.current[:github_private_key] = ENV["GITHUB_PRIVATE_KEY"]
+
+Thread.current[:github_installation_id] = ENV["GITHUB_INTEGRATION_APPLICATION_ID"]
+```
+
 ## Usage
 
 The method `GitHubIntegration.client` returns an Octokit Client. If the environment variable `GITHUB_INTEGRATION_APPLICATION_ID` is set it will return a client for your GitHub App Integration bot. If it is not set, it will return a client from the Legacy API token.
@@ -60,4 +75,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
