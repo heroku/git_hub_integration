@@ -61,19 +61,24 @@ module GitHubIntegration
 
   def self.github_access_token_jwt
     payload = {
-      iss: ENV["GITHUB_INTEGRATION_ID"].to_i,
+      iss: github_integration_id,
       iat: Time.now.utc.to_i,
       exp: 5.minutes.from_now.utc.to_i
     }
     JWT.encode payload, github_private_key, "RS256"
   end
 
+  def self.github_integration_id
+    ENV["GITHUB_INTEGRATION_ID"]&.to_i || Thread.current[:github_integration_id]
+  end
+
   def self.github_private_key
-    OpenSSL::PKey::RSA.new(ENV["GITHUB_PRIVATE_KEY"])
+    key = ENV["GITHUB_PRIVATE_KEY"] || Thread.current[:github_private_key]
+    OpenSSL::PKey::RSA.new(key) if key
   end
 
   def self.github_installation_id
-    ENV["GITHUB_INTEGRATION_APPLICATION_ID"]
+    ENV["GITHUB_INTEGRATION_APPLICATION_ID"] || Thread.current[:github_installation_id]
   end
 
   def self.cache_encrypted_token(token)

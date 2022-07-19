@@ -5,7 +5,7 @@ orbs:
 jobs:
   CI:
     docker:
-      - image: circleci/ruby:2.6.5
+      - image: cimg/ruby:2.7.6
       - image: circleci/redis:latest
     executor: ruby/default
     steps:
