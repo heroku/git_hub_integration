@@ -14,8 +14,8 @@ describe GitHubIntegration do
 
     GitHubIntegration.access_token
 
-    token = GitHubIntegration.redis.get(GitHubIntegration::ACCESS_TOKEN_KEY)
-    expires_at = GitHubIntegration.redis.get(GitHubIntegration::EXPIRATION_KEY)
+    token = GitHubIntegration.redis.get(GitHubIntegration.access_token_key)
+    expires_at = GitHubIntegration.redis.get(GitHubIntegration.expiration_key)
     decrypted_token = GitHubIntegration::TokenEncryption.decrypt_value(token)
     expect(decrypted_token).to eql("123")
     expect(expires_at).to eql(1.hour.from_now.utc.to_s)
@@ -30,8 +30,8 @@ describe GitHubIntegration do
   end
 
   it "expires and get a new token" do
-    GitHubIntegration.redis.set(GitHubIntegration::ACCESS_TOKEN_KEY, "123")
-    GitHubIntegration.redis.set(GitHubIntegration::EXPIRATION_KEY, Time.now.utc - 1)
+    GitHubIntegration.redis.set(GitHubIntegration.access_token_key, "123")
+    GitHubIntegration.redis.set(GitHubIntegration.expiration_key, Time.now.utc - 1)
     expect(GitHubIntegration).to be_expired
 
     request = stub_github_integration_request
@@ -43,7 +43,7 @@ describe GitHubIntegration do
 
   it "stores the token encrypted" do
     GitHubIntegration.cache_encrypted_token("test")
-    token = GitHubIntegration.redis.get(GitHubIntegration::ACCESS_TOKEN_KEY)
+    token = GitHubIntegration.redis.get(GitHubIntegration.access_token_key)
     expect(token).to_not eql "test"
     decrypted_value = GitHubIntegration::TokenEncryption.decrypt_value(token)
     expect(decrypted_value).to eql("test")
