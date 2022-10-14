@@ -12,8 +12,6 @@ require "redis"
 
 # Github authentication
 module GitHubIntegration
-  ACCESS_TOKEN_KEY = "github.access_token".freeze
-  EXPIRATION_KEY = "github.expiration".freeze
   MACHINE_MAN = "application/vnd.github.machine-man-preview+json".freeze
   EXPIRATION = 30
 
@@ -40,7 +38,7 @@ module GitHubIntegration
   end
 
   def self.expires_at
-    expires_at = redis.get(EXPIRATION_KEY)
+    expires_at = redis.get(expiration_key)
     return unless expires_at
     Time.parse(expires_at)
   end
@@ -58,7 +56,7 @@ module GitHubIntegration
       }
     )
     cache_encrypted_token(response[:token])
-    redis.set(EXPIRATION_KEY, response[:expires_at])
+    redis.set(expiration_key, response[:expires_at])
   end
 
   def self.github_access_token_jwt
@@ -85,14 +83,22 @@ module GitHubIntegration
 
   def self.cache_encrypted_token(token)
     encrypted_token = TokenEncryption.encrypt_value(token)
-    redis.set(ACCESS_TOKEN_KEY, encrypted_token)
+    redis.set(access_token_key, encrypted_token)
   end
 
   def self.decrypted_access_token
-    TokenEncryption.decrypt_value(redis.get(ACCESS_TOKEN_KEY))
+    TokenEncryption.decrypt_value(redis.get(access_token_key))
   end
 
   def self.redis
     @redis ||= Redis.new(url: ENV["REDIS_URL"])
+  end
+
+  def self.access_token_key
+    ["github", github_integration_id, github_installation_id, "access_token"].join(".")
+  end
+
+  def self.expiration_key
+    ["github", github_integration_id, github_installation_id, "expiration"].join(".")
   end
 end
