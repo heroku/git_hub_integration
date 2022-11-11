@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   CI:
-    runs-on: sfdc-hk-ubuntu-latest
+    runs-on: ubuntu-latest
     services:
       redis:
         image: redis:latest
