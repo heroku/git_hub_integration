@@ -1,24 +1,25 @@
-name: heroku/git_hub_integration/CI
+name: CI
 on:
   push:
 jobs:
   CI:
     runs-on: sfdc-hk-ubuntu-latest
-    container:
-      image: ruby:2.7.6
     services:
       redis:
         image: redis:latest
+        ports:
+          - 6379:6379
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup
-      run: |-
-        gem install bundler
-        sudo apt-get -qq update
-        sudo apt-get install -y libsodium-dev
-        bundle -v
-    - name: Wait for Redis
-      run: dockerize -wait tcp://localhost:6379 -timeout 1m
-    - run: bin/setup
+    - uses: actions/checkout@v3
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+        bundler-cache: true
     - name: Run tests
       run: bin/cibuild
