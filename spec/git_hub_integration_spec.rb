@@ -49,6 +49,14 @@ describe GitHubIntegration do
     expect(decrypted_value).to eql("test")
   end
 
+  it "returns nil if Redis returns an empty string or the key does not exist" do
+    expect(GitHubIntegration).to receive(:redis).and_return(double(get: ""))
+    expect(GitHubIntegration.expires_at).to be_nil
+
+    expect(GitHubIntegration).to receive(:redis).and_return(double(get: nil))
+    expect(GitHubIntegration.expires_at).to be_nil
+  end
+
   describe "fetching GitHub App tokens" do
     describe ".github_integration_id" do
       it "should fetch from the environment variable GITHUB_INTEGRATION_ID and cast it as an integer if set" do

@@ -39,7 +39,7 @@ module GitHubIntegration
 
   def self.expires_at
     expires_at = redis.get(expiration_key)
-    return unless expires_at
+    return unless expires_at && !expires_at.empty?
     Time.parse(expires_at)
   end
 
