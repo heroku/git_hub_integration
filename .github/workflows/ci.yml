@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   CI:
-    runs-on: ubuntu-latest
+    runs-on: pub-hk-ubuntu-22.04-small
     services:
       redis:
         image: redis:latest
