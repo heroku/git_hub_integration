@@ -91,7 +91,10 @@ module GitHubIntegration
   end
 
   def self.redis
-    @redis ||= Redis.new(url: ENV["REDIS_URL"])
+    @redis ||= Redis.new(
+      url: ENV["REDIS_URL"],
+      ssl_params: ENV["REDIS_OPENSSL_VERIFY_MODE"] == "none" ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+    )
   end
 
   def self.access_token_key
