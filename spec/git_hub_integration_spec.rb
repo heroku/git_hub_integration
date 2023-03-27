@@ -131,7 +131,7 @@ describe GitHubIntegration do
 
     context "when REDIS_OPENSSL_VERIFY_MODE is set to 'none'" do
       it "creates a new Redis instance with ssl_params set to VERIFY_NONE" do
-        with_environment("REDIS_OPENSSL_VERIFY_MODE" => 'none') do
+        with_environment("REDIS_OPENSSL_VERIFY_MODE" => "none") do
           redis = described_class.redis # Should use the environment variable during instantiation.
           expect(redis.instance_variable_get(:@options)[:ssl_params][:verify_mode]).to eq(OpenSSL::SSL::VERIFY_NONE)
         end
