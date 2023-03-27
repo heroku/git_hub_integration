@@ -1,4 +1,5 @@
 require "spec_helper"
+require 'redis'
 
 describe GitHubIntegration do
   it "has a version number" do
@@ -119,6 +120,26 @@ describe GitHubIntegration do
         with_environment("GITHUB_INTEGRATION_APPLICATION_ID" => nil) do
           Thread.current[:github_installation_id] = "789"
           expect(GitHubIntegration.github_installation_id).to eq("789")
+        end
+      end
+    end
+  end
+
+  describe "redis" do
+    context "when REDIS_OPENSSL_VERIFY_MODE is set to 'none'" do
+      it "creates a new Redis instance with ssl_params set to VERIFY_NONE" do
+        with_environment("REDIS_OPENSSL_VERIFY_MODE" => 'none') do
+          redis = described_class.redis # Should use the environment variable during instantiation.
+          expect(redis.client.ssl_params[:verify_mode]).to eq(OpenSSL::SSL::VERIFY_NONE)
+        end
+      end
+    end
+
+    context "when REDIS_OPENSSL_VERIFY_MODE is not set" do
+      it "creates a new Redis instance with default ssl_params" do
+        with_environment("REDIS_OPENSSL_VERIFY_MODE" => nil) do
+          redis = described_class.redis # Should use the environment variable during instantiation.
+          expect(redis.client.ssl_params[:verify_mode]).to eq(OpenSSL::SSL::VERIFY_PEER)
         end
       end
     end
