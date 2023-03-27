@@ -1,5 +1,4 @@
 require "spec_helper"
-require 'redis'
 
 describe GitHubIntegration do
   it "has a version number" do
