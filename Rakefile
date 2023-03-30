@@ -1,4 +1,4 @@
-require 'rake'
+require "rake"
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
 
@@ -6,9 +6,9 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
-desc 'Build and release the gem to Packagecloud.io'
+desc "Build and release the gem to Packagecloud.io"
 task :packagecloud_release do
-  gemspec = Gem::Specification.load(Dir.glob('*.gemspec').first)
+  gemspec = Gem::Specification.load(Dir.glob("*.gemspec").first)
   gem_file = "#{gemspec.name}-#{gemspec.version}.gem"
 
   puts "Building gem..."
