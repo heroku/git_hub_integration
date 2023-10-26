@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "jwt", "~> 2.0"
   spec.add_dependency "faraday-retry", "~> 2.2"
-  spec.add_dependency "octokit", "~> 4.19"
+  spec.add_dependency "octokit", "~> 6.1.1"
   spec.add_dependency "rbnacl", "~> 7.1.1"
   spec.add_dependency "redis"
 
